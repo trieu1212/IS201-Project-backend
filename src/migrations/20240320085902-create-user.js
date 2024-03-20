@@ -22,6 +22,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      phone:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      isAdmin:{
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       serviceId: {
         type: Sequelize.INTEGER,
       },
