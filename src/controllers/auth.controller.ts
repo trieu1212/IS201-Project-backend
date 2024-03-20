@@ -2,8 +2,8 @@ import db from '../models/index'
 import bcrypt from 'bcryptjs'
 import express,{Request,Response} from 'express';
 import jwt from 'jsonwebtoken'
-import { userInfo } from 'os';
-const authController = {
+let refreshTokens:Array<string> = []
+const authController:any = {
     generateAccessToken: (user:any)=>{
         return jwt.sign({
             id: user.id,
@@ -59,6 +59,7 @@ const authController = {
                         const refreshToken = authController.generateRefreshToken(user)
                         const {password,...userInfo} = user.dataValues
                         res.status(200).json({userInfo,accessToken,refreshToken})
+                        refreshTokens.push(refreshToken)
                     }
                     else{
                         res.status(400).json({error:"Invalid password"})
@@ -71,6 +72,9 @@ const authController = {
         } catch (error) {
             
         }
+    },
+    refresh: async(req:Request,res:Response)=>{
+        
     }
 }
 
