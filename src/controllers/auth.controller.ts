@@ -74,7 +74,34 @@ const authController:any = {
         }
     },
     refresh: async(req:Request,res:Response)=>{
-        
+        const refreshToken = req.body.refreshToken
+        if(!refreshToken){
+            res.status(401).json({message:"Token is required"})
+        }
+        else{
+            if(!refreshTokens.includes(refreshToken)){
+                res.status(403).json({message:"Invalid token"})
+            }
+            else{
+                jwt.verify(refreshToken,process.env.JWT_REFRESH_KEY || 'trieuhihi',(err:any,user:any)=>{
+                    if(err){
+                        res.status(403).json({message:"Wrong token"})
+                    }
+                    else{
+                        refreshTokens = refreshTokens.filter(token=>token!==refreshToken)
+                        const newAccessToken = authController.generateAccessToken(user)
+                        const newRefreshToken = authController.generateRefreshToken(user)
+                        refreshTokens.push(newRefreshToken)
+                        res.status(200).json({accessToken:newAccessToken,refreshToken:newRefreshToken})
+                    }
+                })
+            }
+        }
+    },
+    logout: async(req:Request,res:Response)=>{
+        const refreshToken = req.body.refreshToken
+        refreshTokens = refreshTokens.filter(token=>token !== refreshToken)
+        res.status(200).json({message:"Logout successfully"})
     }
 }
 
