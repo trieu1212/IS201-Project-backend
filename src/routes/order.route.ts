@@ -4,6 +4,6 @@ import express from 'express';
 
 const router = express.Router();
 //user does
-router.post('/create/:userId',middlewareController.verifyTokenAndAuthorite,orderController.createOrder)
-router.get('/:userId',middlewareController.verifyTokenAndAuthorite,orderController.getAllUserOrder)
+router.post('/create/:userId',middlewareController.verifyTokenAndAuthorize,orderController.createOrder)
+router.get('/:userId',middlewareController.verifyTokenAndAuthorize,orderController.getAllUserOrder)
 export default router;

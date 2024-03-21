@@ -41,7 +41,7 @@ const middlewareController:any = {
             }
         })
     },
-    verifyTokenAndAuthorite: (req:Request,res:Response,next:Function)=>{
+    verifyTokenAndAuthorize: (req:Request,res:Response,next:Function)=>{
         middlewareController.verifyToken(req,res,()=>{
             if(req.user?.id === Number(req.params.userId)){
                 next()
