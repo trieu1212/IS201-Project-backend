@@ -25,7 +25,7 @@ const orderController={
                 where:{
                     userId
                 },
-                sort:[['createdAt','ASC']]
+                order:[['createdAt','ASC']]
             })
             res.status(200).json(orders)
         } catch (error) {
