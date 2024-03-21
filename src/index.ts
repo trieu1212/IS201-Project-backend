@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser'
 import authRoute from './routes/auth.route'
 import serviceRoute from './routes/service.route'
+import orderRoute from './routes/order.route'
 // import userRoute from './routes/user.route'
 import {connection} from './db/connection';
 const app: express.Application = express()
@@ -19,4 +20,5 @@ app.listen(process.env.PORT,()=>{
 })
 app.use('/api/auth',authRoute)
 app.use('/api/service',serviceRoute)
+app.use('/api/order',orderRoute)
 // app.use('/api/user',userRoute)
