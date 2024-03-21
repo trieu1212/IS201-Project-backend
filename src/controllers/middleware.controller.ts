@@ -43,7 +43,7 @@ const middlewareController:any = {
     },
     verifyTokenAndAuthorite: (req:Request,res:Response,next:Function)=>{
         middlewareController.verifyToken(req,res,()=>{
-            if(req.user?.id === Number(req.params.id)){
+            if(req.user?.id === Number(req.params.userId)){
                 next()
             }
             else{
