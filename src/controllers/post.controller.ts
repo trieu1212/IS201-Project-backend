@@ -15,12 +15,12 @@ const postController={
                 userId:userId
             })
             if(roomImage){
-                roomImage.map((image:string)=>{
-                    db.ImageRoom.create({
+                for(const image of roomImage){
+                    await db.ImageRoom.create({
                         imageUrl:image,
-                        PostId:post.id
+                        postId:post.id
                     })
-                })
+                }
             }
             res.status(200).json({message:"Post created successfully"})
         } catch (error) {
