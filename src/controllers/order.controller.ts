@@ -12,7 +12,11 @@ const orderController={
                 totalPrice,
                 serviceId,
                 userId
-            })
+            }) 
+            const user = await db.User.findByPk(userId)
+            const service = await db.Service.findByPk(serviceId)
+            user.postAmount += service.postAmount
+            await user.save()
             res.status(201).json(order)
         } catch (error) {
             res.status(500).json({message:error})

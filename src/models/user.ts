@@ -5,6 +5,7 @@ type UserAttributes = {
   password: string,
   email: string,
   phone:number,
+  postAmount:number,
   isAdmin:boolean,
   serviceId:number,
 };
@@ -19,6 +20,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     password!: string;
     email!: string;
     phone!:number;
+    postAmount!:number;
     isAdmin!:boolean;
     serviceId!:number;
     static associate(models:any) {
@@ -32,6 +34,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     password: DataTypes.STRING,
     email: DataTypes.STRING,
     phone:DataTypes.INTEGER,
+    postAmount:DataTypes.INTEGER,
     isAdmin:DataTypes.BOOLEAN,
     serviceId:DataTypes.INTEGER,
   },{

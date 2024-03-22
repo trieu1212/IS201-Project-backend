@@ -26,6 +26,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      postAmount:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       isAdmin:{
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -33,6 +38,8 @@ module.exports = {
       },
       serviceId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,
