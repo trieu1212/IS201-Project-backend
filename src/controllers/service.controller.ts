@@ -18,8 +18,8 @@ interface AuthRequest extends Request{
         postAmount:number;
     },
     params:{
-        serviceId:number,
-        userId:number
+        serviceId:string,
+        userId:string
     }
 }
 interface AuthResponse extends Response<any,Record<string,any>>{
