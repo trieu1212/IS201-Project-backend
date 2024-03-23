@@ -1,11 +1,32 @@
 import { Request,Response } from "express";
 import db from "../models";
-
+interface IService{
+    id:number;
+    name:string;
+    description:string;
+    dateTime:string;
+    price:number;
+    postAmount:number;
+}
+interface AuthRequest extends Request{
+    body:{
+        id:number;
+        name:string;
+        description:string;
+        dateTime:string;
+        price:number;
+        postAmount:number;
+    }
+}
+interface AuthResponse extends Response<any,Record<string,any>>{
+    status(code:number):this;
+    json(data:any):this;
+}
 const serviceController ={
-    createService:async(req:Request,res:Response)=>{
+    createService:async(req:AuthRequest,res:AuthResponse)=>{
         const {name,description,dateTime,price,postAmount} = req.body;
         try {
-            const service = await db.Service.create({
+            const service:IService|null = await db.Service.create({
                 name,
                 description,
                 dateTime,
@@ -17,11 +38,11 @@ const serviceController ={
             res.status(500).json({message:e})
         }
     },
-    updateService: async(req:Request,res:Response)=>{
+    updateService: async(req:AuthRequest,res:AuthResponse)=>{
         const {id}=req.params;
         const {name,description,dateTime,price,postAmount} = req.body;
         try {
-            const service = await db.Service.update({
+            const service:IService|null = await db.Service.update({
                 name,
                 description,
                 dateTime,
@@ -37,10 +58,10 @@ const serviceController ={
             res.status(500).json({message:error})
         }
     },
-    deleteService: async(req:Request,res:Response)=>{
+    deleteService: async(req:AuthRequest,res:AuthResponse)=>{
         const {id}=req.params;
         try {
-            const service = await db.Service.destroy({
+            const service:IService|null = await db.Service.destroy({
                 where:{
                     id
                 }
@@ -50,9 +71,9 @@ const serviceController ={
             res.status(500).json({message:error})
         }
     },
-    getAllService: async(req:Request,res:Response)=>{
+    getAllService: async(req:AuthRequest,res:AuthResponse)=>{
         try {
-            const services = await db.Service.findAll()
+            const services:IService|null = await db.Service.findAll()
             res.status(200).json(services)
         } catch (error) {
             res.status(500).json({message:error})
