@@ -8,6 +8,7 @@ type UserAttributes = {
   postAmount:number,
   isAdmin:boolean,
   serviceId:number,
+  refreshToken?:string
 };
 module.exports = (sequelize:any, DataTypes:any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
@@ -23,6 +24,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     postAmount!:number;
     isAdmin!:boolean;
     serviceId!:number;
+    refreshToken!:string;
     static associate(models:any) {
       // define association here
       User.hasOne(models.Post)
@@ -37,6 +39,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     postAmount:DataTypes.INTEGER,
     isAdmin:DataTypes.BOOLEAN,
     serviceId:DataTypes.INTEGER,
+    refreshToken:DataTypes.STRING
   },{
     sequelize,
     modelName: 'User',
