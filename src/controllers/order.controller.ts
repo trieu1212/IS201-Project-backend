@@ -1,12 +1,35 @@
 import { Request,Response } from "express";
 import db from "../models";
-
+interface IOrder{
+    id:number;
+    dateStart:string;
+    dateEnd:string;
+    totalPrice:number;
+    serviceId:number;
+    userId:number;
+}
+interface AuthRequest extends Request{
+    body:{
+        dateStart:string;
+        dateEnd:string;
+        totalPrice:number;
+        serviceId:number;
+    },
+    params:{
+        userId:string,
+        orderId:string
+    }
+}
+interface AuthResponse extends Response<any,Record<string,any>>{
+    status(code:number):this;
+    json(data:any):this;
+}
 const orderController={
-    createOrder:async(req:Request,res:Response)=>{
+    createOrder:async(req:AuthRequest,res:AuthResponse)=>{
         const {userId} = req.params
         const {dateStart,dateEnd,totalPrice,serviceId} = req.body
         try {
-            const order = await db.Order.create({
+            const order:IOrder = await db.Order.create({
                 dateStart,
                 dateEnd,
                 totalPrice,
@@ -22,10 +45,10 @@ const orderController={
             res.status(500).json({message:error})
         }
     },
-    getAllUserOrder:async(req:Request,res:Response)=>{
+    getAllUserOrder:async(req:AuthRequest,res:AuthResponse)=>{
         const {userId} = req.params
         try {
-            const orders = await db.Order.findAll({
+            const orders:IOrder = await db.Order.findAll({
                 where:{
                     userId
                 },
