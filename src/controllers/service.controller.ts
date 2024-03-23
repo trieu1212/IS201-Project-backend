@@ -16,6 +16,10 @@ interface AuthRequest extends Request{
         dateTime:string;
         price:number;
         postAmount:number;
+    },
+    params:{
+        serviceId:number,
+        userId:number
     }
 }
 interface AuthResponse extends Response<any,Record<string,any>>{
@@ -39,7 +43,7 @@ const serviceController ={
         }
     },
     updateService: async(req:AuthRequest,res:AuthResponse)=>{
-        const {id}=req.params;
+        const {serviceId}=req.params;
         const {name,description,dateTime,price,postAmount} = req.body;
         try {
             const service:IService|null = await db.Service.update({
@@ -50,7 +54,7 @@ const serviceController ={
                 postAmount
             },{
                 where:{
-                    id
+                    id:serviceId
                 }
             })
             res.status(200).json(service)
@@ -59,11 +63,11 @@ const serviceController ={
         }
     },
     deleteService: async(req:AuthRequest,res:AuthResponse)=>{
-        const {id}=req.params;
+        const {serviceId}=req.params;
         try {
             const service:IService|null = await db.Service.destroy({
                 where:{
-                    id
+                    id:serviceId
                 }
             })
             res.status(200).json(service)
