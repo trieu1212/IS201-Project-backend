@@ -1,12 +1,41 @@
 import { Request, Response } from "express";
 import db from "../models";
+interface IPost {
+  id: number;
+  title: string;
+  description: string;
+  roomType: string;
+  price: number;
+  address: string;
+  acreage: number;
+  userId: number;
+}
+interface AuthRequest extends Request {
+  body: {
+    title: string;
+    description: string;
+    roomType: string;
+    price: number;
+    address: string;
+    acreage: number;
+    roomImage: string[];
+  };
+  params: {
+    userId: string;
+    postId: string;
+  };
+}
+interface AuthResponse extends Response<any, Record<string, any>> {
+  status(code: number): this;
+  json(data: any): this;
+}
 const postController = {
-  createPost: async (req: Request, res: Response) => {
+  createPost: async (req: AuthRequest, res: AuthResponse) => {
     const { userId } = req.params;
     const { title, description, roomType, price, address, acreage, roomImage } =
       req.body;
     try {
-      const post = await db.Post.create({
+      const post:IPost = await db.Post.create({
         title,
         description,
         roomType,
@@ -28,9 +57,9 @@ const postController = {
       res.status(500).json({ message: error });
     }
   },
-  getAllPost: async (req: Request, res: Response) => {
+  getAllPost: async (req: AuthRequest, res: AuthResponse) => {
     try {
-      const posts = await db.Post.findAll({
+      const posts:IPost = await db.Post.findAll({
         include: [
           {
             model: db.User,
