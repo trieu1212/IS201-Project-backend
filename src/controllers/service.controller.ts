@@ -8,7 +8,7 @@ interface IService{
     price:number;
     postAmount:number;
 }
-interface AuthRequest extends Request{
+interface ServiceRequest extends Request{
     body:{
         id:number;
         name:string;
@@ -22,12 +22,12 @@ interface AuthRequest extends Request{
         userId:string
     }
 }
-interface AuthResponse extends Response<any,Record<string,any>>{
+interface ServiceResponse extends Response<any,Record<string,any>>{
     status(code:number):this;
     json(data:any):this;
 }
 const serviceController ={
-    createService:async(req:AuthRequest,res:AuthResponse)=>{
+    createService:async(req:ServiceRequest,res:ServiceResponse)=>{
         const {name,description,dateTime,price,postAmount} = req.body;
         try {
             const service:IService|null = await db.Service.create({
@@ -42,7 +42,7 @@ const serviceController ={
             res.status(500).json({message:e})
         }
     },
-    updateService: async(req:AuthRequest,res:AuthResponse)=>{
+    updateService: async(req:ServiceRequest,res:ServiceResponse)=>{
         const {serviceId}=req.params;
         const {name,description,dateTime,price,postAmount} = req.body;
         try {
@@ -62,7 +62,7 @@ const serviceController ={
             res.status(500).json({message:error})
         }
     },
-    deleteService: async(req:AuthRequest,res:AuthResponse)=>{
+    deleteService: async(req:ServiceRequest,res:ServiceResponse)=>{
         const {serviceId}=req.params;
         try {
             const service:IService|null = await db.Service.destroy({
@@ -75,7 +75,7 @@ const serviceController ={
             res.status(500).json({message:error})
         }
     },
-    getAllService: async(req:AuthRequest,res:AuthResponse)=>{
+    getAllService: async(req:ServiceRequest,res:ServiceResponse)=>{
         try {
             const services:IService|null = await db.Service.findAll()
             res.status(200).json(services)
