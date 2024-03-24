@@ -8,7 +8,7 @@ interface IOrder{
     serviceId:number;
     userId:number;
 }
-interface AuthRequest extends Request{
+interface OrderRequest extends Request{
     body:{
         dateStart:string;
         dateEnd:string;
@@ -20,12 +20,12 @@ interface AuthRequest extends Request{
         orderId:string
     }
 }
-interface AuthResponse extends Response<any,Record<string,any>>{
+interface OrderResponse extends Response<any,Record<string,any>>{
     status(code:number):this;
     json(data:any):this;
 }
 const orderController={
-    createOrder:async(req:AuthRequest,res:AuthResponse)=>{
+    createOrder:async(req:OrderRequest,res:OrderResponse)=>{
         const {userId} = req.params
         const {dateStart,dateEnd,totalPrice,serviceId} = req.body
         try {
@@ -45,7 +45,7 @@ const orderController={
             res.status(500).json({message:error})
         }
     },
-    getAllUserOrder:async(req:AuthRequest,res:AuthResponse)=>{
+    getAllUserOrder:async(req:OrderRequest,res:OrderResponse)=>{
         const {userId} = req.params
         try {
             const orders:IOrder = await db.Order.findAll({
