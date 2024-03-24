@@ -10,7 +10,7 @@ interface IPost {
   acreage: number;
   userId: number;
 }
-interface AuthRequest extends Request {
+interface PostRequest extends Request {
   body: {
     title: string;
     description: string;
@@ -25,12 +25,12 @@ interface AuthRequest extends Request {
     postId: string;
   };
 }
-interface AuthResponse extends Response<any, Record<string, any>> {
+interface PostResponse extends Response<any, Record<string, any>> {
   status(code: number): this;
   json(data: any): this;
 }
 const postController = {
-  createPost: async (req: AuthRequest, res: AuthResponse) => {
+  createPost: async (req: PostRequest, res: PostResponse) => {
     const { userId } = req.params;
     const { title, description, roomType, price, address, acreage, roomImage } =
       req.body;
@@ -57,7 +57,7 @@ const postController = {
       res.status(500).json({ message: error });
     }
   },
-  getAllPost: async (req: AuthRequest, res: AuthResponse) => {
+  getAllPost: async (req: PostRequest, res: PostResponse) => {
     try {
       const posts:IPost = await db.Post.findAll({
         include: [
