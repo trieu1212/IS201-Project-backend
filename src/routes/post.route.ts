@@ -6,4 +6,5 @@ router.post('/create/:userId',middlewareController.verifyTokenAndAuthorize,postC
 
 //all user does
 router.get('/',postController.getAllPost)
+router.get('/:postId',postController.getOnePost)
 export default router;

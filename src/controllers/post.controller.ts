@@ -96,6 +96,22 @@ const postController = {
       res.status(500).json({ message: error });
     }
   },
+  getOnePost: async(req: PostRequest,res:PostResponse)=>{
+    const {postId} = req.params
+    try {
+      const post:IPost = await db.Post.findOne({
+        where:{id:postId},
+        attributes:['id','title','description','roomType','price','address','acreage'],
+        include:[
+          {model:db.ImageRoom,attributes:['id','imageUrl']},
+          {model:db.User,attributes:['id','username','email','phone']}
+        ]
+      })
+      res.status(200).json(post)
+    } catch (error) {
+      res.status(500).json({message:error})
+    }
+  }
 };
 
 export default postController;
